@@ -119,74 +119,6 @@ public class TeleOpFreightFrenzy extends LinearOpMode {
     }
 
 
-    public void liftArmMotor(DcMotor ArmMotor) {
-
-        if (ArmMotor != null ) {
-
-            if (gamepad2.right_bumper) {
-
-                //   holdRequest = false;
-
-                ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-             //   ArmMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                ArmMotor.setPower(0.1);
-             //   ArmMotor2.setPower(-0.1);
-
-                armCounter = armCounter + 1;
-                telemetry.addData("ARM COUNTER: ", armCounter);
-                telemetry.addData("Current Position arm1: ", "%7d :%7d ", ArmMotor.getCurrentPosition());
-                telemetry.update();
-
-                armCounter = 0;
-
-            } else if (gamepad2.x) {
-
-                // holdRequest = false;
-                //ArmMotor2.setDirection(DcMotor.Direction.REVERSE);
-                //WobbleArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                //ArmMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                ArmMotor.setTargetPosition(-30);
-                //ArmMotor2.setTargetPosition(200);
-                //ArmMotor2.setTargetPosition(200);
-
-                ArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                //ArmMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                ArmMotor.setPower(-0.3);
-               // ArmMotor2.setPower(0.5);
-                //ArmMotor2.setPower(0.5);
-
-
-                armCounter = armCounter + 1;
-                telemetry.addData("ARM COUNTER LEFT: ", armCounter);
-               // telemetry.addData("LEFT Bumper arm1: ", "%7d :%7d ", ArmMotor.getCurrentPosition());
-                telemetry.update();
-
-                armCounter = 0;
-
-                //  ArmMotor.setPower(-0.5);
-                //  ArmMotor2.setPower(0.5);
-
-//                        telemetry.addData("ArmTurn and ArmTurn2 up", "ArmTurn Power = 0%");
-//                        telemetry.update();
-//                    }
-
-
-            }
-            else {
-                ArmMotor.setPower(0);
-               // ArmMotor2.setPower(0);
-                telemetry.addData("ARM MOTOR: ", "Not yet powered");
-                telemetry.update();
-            }
-        }
-
-    }      //Check Button statuses while op Mode running
-
     public void checkButtonStatus() {
         if (!gamepad2.right_bumper) armMotorPressed = false;
         if (!gamepad2.left_bumper) armDownPosition = false;
@@ -256,18 +188,20 @@ public class TeleOpFreightFrenzy extends LinearOpMode {
      //   if (servoarm != null) {
 
             if (gamepad2.left_bumper) {
-                servoarm.setDirection(Servo.Direction.FORWARD);
+                servoarm.setDirection(Servo.Direction.REVERSE);
 
-                pos = -0.2;
+                pos = 0.2;
 
 
             }
             else if(gamepad2.right_bumper) {
                 servoarm.setDirection(Servo.Direction.FORWARD);
-                pos = 0.2;
+                pos = -0.7;
 
             }
             servoarm.setPosition(pos);
+            telemetry.addData("Pos: ", pos);
+            telemetry.update();
 
         // }
 

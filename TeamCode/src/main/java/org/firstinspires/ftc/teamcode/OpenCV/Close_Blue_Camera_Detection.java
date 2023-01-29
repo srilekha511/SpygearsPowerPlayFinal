@@ -188,23 +188,36 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
                     {
 
                         moveForward(1,medium);
+                        slideMotorUpTest(1, 0.2);
                         //move right to get away from the cone infront
-                         moveLeft(20, medium);
+                         moveLeft(19 , fast);
                         //move forward to get closer to the closest medium pole
-                         moveForward(17,medium);
+                         moveForward(16,fast);
                         //move right to get to the position near the pole
                           moveLeft(-9, medium);
                         //go up to drop the cone into the pole
                         slideMotorUpTest(35, 0.2);
                         moveForward(3, medium);
+                        slideMotorUpTest(-7, 0.2);
                         servoOpen(servoarm, -0.2);
 
                         //go to park
                         moveForward(-2,medium);
                         servoOpen(servoarm,0.7);
-                        slideMotorUpTest(-35,0.2);
+                        slideMotorUpTest(-28,0.2);
+                        moveLeft(-15,medium);
                         moveLeft(8,medium);
-                        turnClockwise(68,medium);
+                        turnClockwise(63,medium);
+                        moveLeft(18,medium);
+                        slideMotorUpTest(7,medium);
+                        servoOpen(servoarm, -0.2);
+                        moveForward(18,medium);
+                        servoOpen(servoarm, 0.7);
+                        sleep(500);
+                        slideMotorUpTest(5,medium);
+                        moveForward(-19,medium);
+
+
 
 
                     }
