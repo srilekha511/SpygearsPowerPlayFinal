@@ -186,25 +186,38 @@ public class AutonRed extends LinearOpMode
                     tagToTelemetry(tagOfInterest);
                     if(tagOfInterest.id == left)
                     {
+                        // CONE 1
                         // Note - 126" (real) = 80" (code)
                         moveForward(1,medium);
                         //move right to get away from the cone infront
-                        moveLeft(20, medium); // UNCENTRED - FIX THIS
+                        moveLeft(20, fast); // UNCENTRED - FIX THIS
                         //move forward to get closer to the closest medium pole
-                        moveForward(21, medium);
-                        turnClockwise(25, medium); // ~45°
+                        moveForward(19, medium);
+                        moveLeft(-11, medium);
+                        slideMotorUp(20, 0.2);
                         moveForward(2, medium);
-                        slideMotorUp(13, 0.2);
-                        servoOpen(servoarm, 0.7);
-                        turnClockwise(-120, medium); // ~180°
-                        slideMotorUp(-5, medium);
+                        servoOpen(servoarm, 0.1); // open
 
+                        // CONE 2
+                        moveForward(-3, medium);
+                        slideMotorUp(-7, medium);
+                        moveLeft(8, medium);
+                        moveForward(8, 0.25);
+                        turnClockwise(-30, medium);
+                        moveForward(3, medium);
+                        slideMotorUp(-3, medium);
+                        servoOpen(servoarm, 0.7); // close
+                        moveForward(-3, medium);
+                        turnClockwise(30, medium);
+                        moveForward(-8, medium);
+                        moveLeft(-8, medium);
+                        slideMotorUp(9, medium);
+                        moveForward(3, medium);
+                        servoOpen(servoarm, 0.1);
 
                         //move right to get to the position near the pole
-                        moveLeft(-6, medium);
-
-                        slideMotorUp(25, 0.1);
-                        moveForward(3, medium);
+                        //moveLeft(-6, medium);
+                        //moveForward(3, medium);
 
 
                         //drop cone
