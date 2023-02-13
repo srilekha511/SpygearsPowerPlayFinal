@@ -186,17 +186,63 @@ public class AutonRed extends LinearOpMode
                     tagToTelemetry(tagOfInterest);
                     if(tagOfInterest.id == left)
                     {
+
                         // CONE 1
                         // Note - 126" (real) = 80" (code)
-                        moveForward(1,medium);
-                        //move right to get away from the cone infront
-                        moveLeft(20, fast); // UNCENTRED - FIX THIS
-                        //move forward to get closer to the closest medium pole
-                        moveForward(19, medium);
-                        moveLeft(-11, medium);
+                        // 0.1 = open, 0.7 = close
+                        moveForward(1, medium);
+                        moveLeft(4, 0.4);
+                        sleep(100);
+                        moveForward(34, 0.4);
+                        sleep(200);
+                        moveForward(-8, medium);
+                        sleep(50);
+                        turnClockwise(-58, medium);
+                        slideMotorUp(17, medium);
+                        moveForward(2, medium);
+                        slideMotorUp(-3, medium);
+                        servoOpen(servoarm, 0.1);
+                        slideMotorUp(3, medium);
+                        moveForward(-2, medium);
+                        moveLeft(-7, medium);
+                        final int REP = 2;
+                        for (int i = 1; i <= REP; i++) {
+                            moveForward(17, medium);
+                            slideMotorUp(-10, medium);
+                            servoOpen(servoarm, 0.7); // close
+                            sleep(100);
+                            slideMotorUp(10, medium);
+                            moveForward(-17, medium);
+                            moveLeft(7, medium);
+                            moveForward(2, medium);
+                            slideMotorUp(-3, medium);
+                            servoOpen(servoarm, 0.1); // open
+                            slideMotorUp(3, medium);
+
+                            moveForward(-2, medium);
+                            moveLeft(-7, medium);
+                        }
+
+                        moveForward(2, medium);
+                        slideMotorUp(-5, medium);
+                        servoOpen(servoarm,0.1);
+                        sleep(20);
+                        slideMotorUp(5, medium);
+                        moveForward(-2, medium);
+
+                        turnClockwise(140, 0.2);
+                        moveForward(2, medium);
+                        slideMotorUp(-8, medium);
+                        servoOpen(servoarm, 0.7);
+                        slideMotorUp(8, medium);
+                        moveForward(-2, medium);
+                        turnClockwise(140, 0.2);
+
+                        /* ALTERNATIVE METHOD:
+                        moveLeft(-10, medium);
                         slideMotorUp(20, 0.2);
                         moveForward(2, medium);
-                        servoOpen(servoarm, 0.1); // open
+                        servoOpen(servoarm, 0.1); // open */
 
                         // CONE 2
                         moveForward(-3, medium);
