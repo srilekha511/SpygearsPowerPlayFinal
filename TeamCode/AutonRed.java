@@ -191,38 +191,41 @@ public class AutonRed extends LinearOpMode
                         // Note - 126" (real) = 80" (code)
                         // 0.1 = open, 0.7 = close
                         moveForward(1, medium);
-                        moveLeft(4, 0.4);
-                        sleep(100);
-                        moveForward(34, 0.4);
-                        sleep(200);
-                        moveForward(-8, medium);
-                        sleep(50);
-                        turnClockwise(-58, medium);
-                        slideMotorUp(17, medium);
+                        moveLeft(5, 0.4);
+                        //sleep(100);
+                        moveForward(34, medium);
+                        //sleep(200);
+                        moveForward(-7, medium);
+                        //sleep(50);
+                        turnClockwise(-60, medium);
+                        slideMotorUp(17, 0.4);
                         moveForward(2, medium);
-                        slideMotorUp(-3, medium);
-                        servoOpen(servoarm, 0.1);
-                        slideMotorUp(3, medium);
+                        slideMotorUp(-8, medium);
+                        servoOpen(servoarm, 0.4);
+                        sleep(300);
+
+                        slideMotorUp(8, medium);
                         moveForward(-2, medium);
                         moveLeft(-7, medium);
                         final int REP = 2;
                         for (int i = 1; i <= REP; i++) {
-                            moveForward(17, medium);
-                            slideMotorUp(-10, medium);
+                            moveForward(19, medium);
+                            slideMotorUp(-11, medium);
                             servoOpen(servoarm, 0.7); // close
                             sleep(100);
-                            slideMotorUp(10, medium);
-                            moveForward(-17, medium);
+                            slideMotorUp(11, medium);
+                            moveForward(-19, medium);
                             moveLeft(7, medium);
                             moveForward(2, medium);
-                            slideMotorUp(-3, medium);
+                            slideMotorUp(-4, medium);
+                            sleep(50);
                             servoOpen(servoarm, 0.1); // open
-                            slideMotorUp(3, medium);
+                            slideMotorUp(4, medium);
 
                             moveForward(-2, medium);
                             moveLeft(-7, medium);
                         }
-
+                        /*
                         moveForward(2, medium);
                         slideMotorUp(-5, medium);
                         servoOpen(servoarm,0.1);
