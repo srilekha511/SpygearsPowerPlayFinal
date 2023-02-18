@@ -34,7 +34,8 @@ public class TeleOpFreightFrenzy extends LinearOpMode {
     private int lmPos = 0;
     private int armCounter = 0;
     private double servoMove = 0.1;
-    private double pos = -0.2;
+    private double pos = 0.4;
+    private int slidePos;
     private int armpos;
     //        private DcMotor OutakeMotor = null;
 //        private int targetPosition;
@@ -152,24 +153,25 @@ public class TeleOpFreightFrenzy extends LinearOpMode {
 
 
     private void slideMotor(DcMotor LinearSlideMotor) {
-        //
+
         if (LinearSlideMotor != null) {
             LinearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             //Padpos = LinearSlideMotor.getCurrentPosition();
+
             if (gamepad2.dpad_up) {
-                
+               // int position = int(LinearSlideMotor.getCurrentPosition() * clicksPerInch);
 
 
-
-                LinearSlideMotor.setPower(0.3);
-                telemetry.addData("Current Position arm: ", ":%7d", LinearSlideMotor.getCurrentPosition());
+                LinearSlideMotor.setPower(0.5);
+                slidePos = LinearSlideMotor.getCurrentPosition();
+                telemetry.addData("Current Position arm: ",":%7d", LinearSlideMotor.getCurrentPosition());
                 telemetry.update();
 
 
-            } else if (gamepad2.dpad_down) {
+            } else if (gamepad2.dpad_down && (LinearSlideMotor.getCurrentPosition() * clicksPerInch) > 0) {
 
-                    LinearSlideMotor.setPower(-0.3);
-
+                LinearSlideMotor.setPower(-0.5);
+                slidePos = LinearSlideMotor.getCurrentPosition();
 
                 telemetry.addData("Current Position arm: ", ":%7d", LinearSlideMotor.getCurrentPosition());
                 telemetry.update();
@@ -177,6 +179,7 @@ public class TeleOpFreightFrenzy extends LinearOpMode {
             }
             else {
                 LinearSlideMotor.setPower(0);
+                LinearSlideMotor.setTargetPosition(slidePos);
 
             }
             LinearSlideMotor.setTargetPosition(Padpos);
@@ -188,15 +191,15 @@ public class TeleOpFreightFrenzy extends LinearOpMode {
      //   if (servoarm != null) {
 
             if (gamepad2.left_bumper) {
-                servoarm.setDirection(Servo.Direction.REVERSE);
+                servoarm.setDirection(Servo.Direction.FORWARD);
 
-                pos = 0.2;
+                pos = 0.4;
 
 
             }
             else if(gamepad2.right_bumper) {
                 servoarm.setDirection(Servo.Direction.FORWARD);
-                pos = -0.7;
+                pos = 0.7;
 
             }
             servoarm.setPosition(pos);

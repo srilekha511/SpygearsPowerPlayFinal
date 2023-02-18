@@ -20,25 +20,34 @@
  */
 
 package org.firstinspires.ftc.teamcode.OpenCV;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.opencv.core.Rect;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-
-import com.qualcomm.robotcore.util.ElapsedTime;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 
 
-@Autonomous(name = "Close_Blue", group = "Linear Opmode")
-public class Close_Blue_Camera_Detection extends LinearOpMode
+@Autonomous
+        //(name = "Close_Blue_Test", group = "Linear Opmode")
+public class Close_Blue_Camera_Detection_Test extends OpMode
 {
     //declare DC Motors
     DcMotor TopRight = null;
@@ -51,6 +60,7 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
 
     private Servo servoarm = null;
 
+     public int cone = 0;
 
     private int lfPos;
     private int rfPos;
@@ -79,6 +89,7 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
 
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    //StickPipeline poleDetection;
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -104,8 +115,7 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
     // drive motor position variables
 
     @Override
-    public void runOpMode()
-    {
+    public void init() {
         telemetry.setAutoClear(true);
 
         // Initialize the hardware variables.
@@ -134,35 +144,43 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
-        camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        //aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+        //poleDetection = new poleDetection();
+        // camera.setPipeline(aprilTagDetectionPipeline);
+        camera.setPipeline(new poleDetection());
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+            public void onOpened() {
+                camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode)
-            {
+            public void onError(int errorCode) {
 
             }
+          //  waitForStart();
         });
+    }
 
-        telemetry.setMsTransmissionInterval(50);
+    public void loop(){
+
+    }
+  //  @Override
+  //  public void loop() {
+
+  //  }
+        //telemetry.setMsTransmissionInterval(50);
 
         /*
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
+        /*
         servoOpen(servoarm, 0.7);
-        waitForStart();
         while (isStarted() && !isStopRequested())
         {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
-
+           // ArrayList<AprilTagDetection> currentDetections1 = stickPipeline.
             if(currentDetections.size() != 0)
             {
                 boolean tagFound = false;
@@ -186,40 +204,6 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
                     if(tagOfInterest.id == left)
                     {
 
-                        moveForward(1,medium);
-                        slideMotorUpTest(1, 0.2);
-                        //move right to get away from the cone infront
-                         moveLeft(19 , fast);
-                        //move forward to get closer to the closest medium pole
-                         moveForward(17,medium);
-                        //move right to get to the position near the pole
-                          moveLeft(-9, medium);
-                        //go up to drop the cone into the pole
-                        slideMotorUpTest(35, 0.3);
-                        moveForward(3, medium);
-                        slideMotorUpTest(-7, 0.3);
-                        servoOpen(servoarm, -0.2);
-
-                        //go to park
-                        moveForward(-2,medium);
-                        servoOpen(servoarm,0.7);
-                        slideMotorUpTest(-28,0.3);
-                        moveLeft(-15,medium);
-                        moveLeft(8,medium);
-                        turnClockwise(63,medium);
-                        moveLeft(18,medium);
-                        slideMotorUpTest(7,medium);
-                        servoOpen(servoarm, -0.2);
-                        moveForward(18,medium);
-                        servoOpen(servoarm, 0.7);
-                        sleep(500);
-                        slideMotorUpTest(5,medium);
-                        moveForward(-19,medium);
-                        turnClockwise(-70,medium);
-                        slideMotorUpTest(35,0.3);
-                        moveForward(4,medium);
-                        slideMotorUpTest(-7, 0.3);
-                        servoOpen(servoarm, -0.2);
 
 
 
@@ -318,6 +302,8 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
          */
 
         // Update the telemetry
+        /*
+        waitForStart();
         if(tagOfInterest != null)
         {
             telemetry.addLine("Tag snapshot:\n");
@@ -330,10 +316,54 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
         }
+        if(tagOfInterest.id == left){
+            moveForward(1,medium);
+            slideMotorUpTest(1, 0.2);
+            //move right to get away from the cone infront
+            moveLeft(19 , fast);
+            //move forward to get closer to the closest medium pole
+            moveForward(17,medium);
+            //move right to get to the position near the pole
+            moveLeft(-9, medium);
+            //go up to drop the cone into the pole
+            slideMotorUpTest(35, 0.3);
+            moveForward(3, medium);
+            slideMotorUpTest(-7, 0.3);
+            servoOpen(servoarm, -0.2);
+
+            //go to pick up new cone
+            moveForward(-2,medium);
+            servoOpen(servoarm,0.7);
+            slideMotorUpTest(-28,0.3);
+            moveLeft(-15,medium);
+            moveLeft(8,medium);
+            turnClockwise(63,medium);
+            moveLeft(18,medium);
+            slideMotorUpTest(7,medium);
+            servoOpen(servoarm, -0.2);
+            moveForward(18,medium);
+            servoOpen(servoarm, 0.7);
+            sleep(500);
+            slideMotorUpTest(5,medium);
+            moveForward(-19,medium);
+            turnClockwise(-70,medium);
+            slideMotorUpTest(35,0.3);
+            moveForward(4,medium);
+            slideMotorUpTest(-7, 0.3);
+            servoOpen(servoarm, -0.2);
+            //stickPipeline.
+            //  stickPipeline.frameList
+        }
+        else if(tagOfInterest.id == middle){
+
+        }
+        else if(tagOfInterest.id == right){
+
+        }
+*/
 
 
-    }
-
+    /*
     void tagToTelemetry(AprilTagDetection detection)
     {
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
@@ -344,7 +374,7 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
-
+*/
     private void moveForward(int howMuch, double speed) {
         // howMuch is in inches. A negative howMuch moves backward.
 
@@ -531,7 +561,60 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
         BottomLeft.setPower(0);
         BottomRight.setPower(0);
     }
+    class poleDetection extends OpenCvPipeline{
+        Mat YCbCr = new Mat();
+        Mat leftCrop;
+        Mat rightCrop;
+        Mat middleCrop;
+        double leftavgfin;
+        double rightavgfin;
+        double middleavgfin;
+        Mat output = new Mat();
+        Scalar rectColor = new Scalar(255.0,255.0,0.0);
 
+
+        @Override
+        public Mat processFrame(Mat input) {
+            Imgproc.cvtColor(input, YCbCr, Imgproc.COLOR_RGB2YCrCb);
+            telemetry.addLine("pipeline running");
+
+            Rect leftRect = new Rect(1,1,310,480);
+            Rect rightRect = new Rect(330,1,310,480);
+            Rect middleRect = new Rect(310,1,20,480);
+
+            input.copyTo(output);
+            Imgproc.rectangle(output, leftRect, rectColor, 2);
+            Imgproc.rectangle(output, rightRect, rectColor, 2);
+            Imgproc.rectangle(output, middleRect, rectColor, 2);
+
+            leftCrop = YCbCr.submat(leftRect);
+            rightCrop = YCbCr.submat(rightRect);
+            middleCrop = YCbCr.submat(middleRect);
+
+            Scalar leftAvg = Core.mean(leftCrop);
+            Scalar rightAvg = Core.mean(rightCrop);
+            Scalar middleAvg = Core.mean(middleCrop);
+
+            leftavgfin = leftAvg.val[0];
+            rightavgfin = rightAvg.val[0];
+            middleavgfin = middleAvg.val[0];
+
+            if(leftavgfin > rightavgfin){
+                telemetry.addLine("Left");
+            }
+            else if(leftavgfin > rightavgfin && leftavgfin < rightavgfin){
+                telemetry.addLine("Middle");
+                cone = 1;
+              //  telemetry.addLine("Cone Val: "+cone);
+            }
+            else if(leftavgfin < rightavgfin){
+                telemetry.addLine("Right");
+            }
+
+
+            return(output);
+        }
+    }
 
 
 }

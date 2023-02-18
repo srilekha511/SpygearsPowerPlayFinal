@@ -36,8 +36,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 
-@Autonomous(name = "Close_Blue_V2", group = "Linear Opmode")
-public class Close_Blue_Camera_Detection_V2 extends LinearOpMode
+@Autonomous(name = "Close_Red_V2", group = "Linear Opmode")
+public class Close_Red_Camera_Detection_V2 extends LinearOpMode
 {
     //declare DC Motors
     DcMotor TopRight = null;
@@ -187,55 +187,76 @@ public class Close_Blue_Camera_Detection_V2 extends LinearOpMode
 
                     if(tagOfInterest.id == left)
                     {
-                        /*
-
                         moveForward(1,medium);
-                        slideMotorUpTest(1, 0.2);
+                        moveLeft(3,medium);
+                        //turnClockwise(90,medium);
+
+                        moveForward(40,medium);
+                        moveForward(-4,medium);
+                        /*
                         //move right to get away from the cone infront
-                         moveLeft(19 , fast);
-                         sleep(300);
+                        moveLeft(20, medium);
                         //move forward to get closer to the closest medium pole
-                         moveForward(15,fast);
-                         sleep(300);
+                        moveForward(17,medium);
+                        */
+
                         //move right to get to the position near the pole
-                          moveLeft(-8, fast);
-                          sleep(300);
-                        moveLeft(1, medium);
+                        moveLeft(-10, medium);
                         //go up to drop the cone into the pole
-                        slideMotorUpTest(25, 0.3);
+                        slideMotorUpTest(35, 0.4);
                         moveForward(3, medium);
-                        slideMotorUpTest(-5, 0.3);
-                        servoOpen(servoarm, servo_Open);
+                        slideMotorUpTest(-5, 0.5);
+                        servoOpen(servoarm, -0.2);
+                        sleep(300);
 
                         //go to park
-                        moveForward(-2,medium);
-                        servoOpen(servoarm,servo_Close);
-                        slideMotorUpTest(-20,0.3);
-                        moveLeft(-17,fast);
-                        sleep(300);
-                        moveLeft(9,fast);
-                        turnClockwise(61,medium);
-                        moveLeft(19,medium);
-                        slideMotorUpTest(4,medium);
-                        servoOpen(servoarm, servo_Open);
-                        moveForward(18,medium);
-                        servoOpen(servoarm, servo_Close);
-                        sleep(500);
-                        slideMotorUpTest(4,medium);
-                        moveForward(-19,medium);
-                        turnClockwise(-83,medium);
-                        slideMotorUpTest(27,0.3);
-                        moveForward(4,medium);
-                        slideMotorUpTest(-7, 0.3);
-                        servoOpen(servoarm, servo_Open);
-
-*/
-
-
+                        moveForward(-4,medium);
+                        servoOpen(servoarm,0.7);
+                        slideMotorUpTest(-28,0.5);
+                        moveLeft(-8,medium);
+                       // moveForward(-15,medium);
+                        sleep(20000);
 
 
                     }
                     else if(tagOfInterest.id == middle )
+                    {
+                        moveForward(1,medium);
+                        moveLeft(4,medium);
+                        //turnClockwise(90,medium);
+
+                        moveForward(40,medium);
+                        moveForward(-4,medium);
+                        /*
+                        //move right to get away from the cone infront
+                        moveLeft(20, medium);
+                        //move forward to get closer to the closest medium pole
+                        moveForward(17,medium);
+                        */
+
+                        //move right to get to the position near the pole
+                        moveLeft(-10, medium);
+                        //moveLeft(1, medium);
+
+                        //go up to drop the cone into the pole
+                        slideMotorUpTest(35, 0.4);
+                        moveForward(3, medium);
+                        slideMotorUpTest(-5, 0.5);
+                        servoOpen(servoarm, -0.2);
+                        sleep(300);
+
+                        //go to park
+                        moveForward(-5,medium);
+                        servoOpen(servoarm,0.7);
+                        slideMotorUpTest(-28,0.5);
+                        moveLeft(10,medium);
+                        sleep(20000);
+
+                        // moveForward(-24,medium);
+                       // moveLeft(-8,medium);
+                       // turnClockwise(68,medium);
+                    }
+                    else if(tagOfInterest.id == right)
                     {
                         moveForward(1,medium);
                         moveLeft(3,medium);
@@ -251,7 +272,7 @@ public class Close_Blue_Camera_Detection_V2 extends LinearOpMode
                         */
 
                         //move right to get to the position near the pole
-                        moveLeft(10, medium);
+                        moveLeft(-10, medium);
                         //go up to drop the cone into the pole
                         slideMotorUpTest(35, 0.4);
                         moveForward(3, medium);
@@ -263,36 +284,10 @@ public class Close_Blue_Camera_Detection_V2 extends LinearOpMode
                         moveForward(-5,medium);
                         servoOpen(servoarm,0.7);
                         slideMotorUpTest(-28,0.5);
-                        moveLeft(-10,medium);
-                       // moveForward(-24,medium);
-                       // moveLeft(-8,medium);
-                       // turnClockwise(68,medium);
-                    }
-                    else if(tagOfInterest.id == right)
-                    {
+                        moveLeft(30,medium);
+                        sleep(20000);
 
-
-                        moveForward(1,medium);
-                        //move right to get away from the cone infront
-                        moveLeft(20, medium);
-                        //move forward to get closer to the closest medium pole
-                        moveForward(17,medium);
-                        //move right to get to the position near the pole
-                        moveLeft(-9, medium);
-                        //go up to drop the cone into the pole
-                        slideMotorUpTest(26, 0.2);
-                        moveForward(4, medium);
-                        slideMotorUpTest(-4, 0.2);
-                        servoOpen(servoarm, -0.2);
-
-                        //go to park
-                        moveForward(-2,medium);
-                        servoOpen(servoarm,0.7);
-                        slideMotorUpTest(-22,0.2);
-                        moveLeft(9,medium);
-                        moveForward(-18,medium);
-                        moveLeft(-35, medium);
-                        moveForward(18,medium);
+                        // moveForward(-15,medium);
                     }
                 }
                 else

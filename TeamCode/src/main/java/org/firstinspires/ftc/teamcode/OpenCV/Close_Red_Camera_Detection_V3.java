@@ -36,8 +36,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 
-@Autonomous(name = "Close_Red_V2", group = "Linear Opmode")
-public class Close_Red_Camera_Detection_V2 extends LinearOpMode
+@Autonomous(name = "Close_Red_V3", group = "Linear Opmode")
+public class Close_Red_Camera_Detection_V3 extends LinearOpMode
 {
     //declare DC Motors
     DcMotor TopRight = null;
@@ -248,9 +248,13 @@ public class Close_Red_Camera_Detection_V2 extends LinearOpMode
                         //go to park
                         moveForward(-5,medium);
                         servoOpen(servoarm,0.7);
-                        slideMotorUpTest(-28,0.5);
-                        moveLeft(10,medium);
-                        sleep(20000);
+                        slideMotorUpTest(-20,0.5);
+                        turnClockwise(90,slow);
+                        servoOpen(servoarm,0.4);
+
+                        moveForward(25,medium);
+                        //moveLeft(10,medium);
+                       // sleep(20000);
 
                         // moveForward(-24,medium);
                        // moveLeft(-8,medium);

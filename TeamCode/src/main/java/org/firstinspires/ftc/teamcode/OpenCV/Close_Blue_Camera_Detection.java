@@ -99,6 +99,9 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
     int middle = 12;
     int right = 14;
 
+    double servo_Open = 0.3;
+    double servo_Close = 0.7;
+
     AprilTagDetection tagOfInterest = null;
 
     // drive motor position variables
@@ -135,7 +138,6 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
-
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -191,36 +193,41 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
                         slideMotorUpTest(1, 0.2);
                         //move right to get away from the cone infront
                          moveLeft(19 , fast);
+                         sleep(300);
                         //move forward to get closer to the closest medium pole
-                         moveForward(17,medium);
+                         moveForward(15,fast);
+                         sleep(300);
                         //move right to get to the position near the pole
-                          moveLeft(-9, medium);
+                          moveLeft(-8, fast);
+                          sleep(300);
+                        moveLeft(1, medium);
                         //go up to drop the cone into the pole
-                        slideMotorUpTest(35, 0.3);
+                        slideMotorUpTest(25, 0.3);
                         moveForward(3, medium);
-                        slideMotorUpTest(-7, 0.3);
-                        servoOpen(servoarm, -0.2);
+                        slideMotorUpTest(-5, 0.3);
+                        servoOpen(servoarm, servo_Open);
 
                         //go to park
                         moveForward(-2,medium);
-                        servoOpen(servoarm,0.7);
-                        slideMotorUpTest(-28,0.3);
-                        moveLeft(-15,medium);
-                        moveLeft(8,medium);
-                        turnClockwise(63,medium);
-                        moveLeft(18,medium);
-                        slideMotorUpTest(7,medium);
-                        servoOpen(servoarm, -0.2);
+                        servoOpen(servoarm,servo_Close);
+                        slideMotorUpTest(-20,0.3);
+                        moveLeft(-17,fast);
+                        sleep(300);
+                        moveLeft(9,fast);
+                        turnClockwise(61,medium);
+                        moveLeft(19,medium);
+                        slideMotorUpTest(4,medium);
+                        servoOpen(servoarm, servo_Open);
                         moveForward(18,medium);
-                        servoOpen(servoarm, 0.7);
+                        servoOpen(servoarm, servo_Close);
                         sleep(500);
-                        slideMotorUpTest(5,medium);
+                        slideMotorUpTest(4,medium);
                         moveForward(-19,medium);
-                        turnClockwise(-70,medium);
-                        slideMotorUpTest(35,0.3);
+                        turnClockwise(-83,medium);
+                        slideMotorUpTest(27,0.3);
                         moveForward(4,medium);
                         slideMotorUpTest(-7, 0.3);
-                        servoOpen(servoarm, -0.2);
+                        servoOpen(servoarm, servo_Open);
 
 
 
@@ -263,14 +270,15 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
                         //move right to get to the position near the pole
                         moveLeft(-9, medium);
                         //go up to drop the cone into the pole
-                        slideMotorUpTest(35, 0.2);
-                        moveForward(3, medium);
+                        slideMotorUpTest(26, 0.2);
+                        moveForward(4, medium);
+                        slideMotorUpTest(-4, 0.2);
                         servoOpen(servoarm, -0.2);
 
                         //go to park
                         moveForward(-2,medium);
                         servoOpen(servoarm,0.7);
-                        slideMotorUpTest(-35,0.2);
+                        slideMotorUpTest(-22,0.2);
                         moveLeft(9,medium);
                         moveForward(-18,medium);
                         moveLeft(-35, medium);

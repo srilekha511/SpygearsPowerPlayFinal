@@ -20,7 +20,12 @@
  */
 
 package org.firstinspires.ftc.teamcode.OpenCV;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -28,17 +33,11 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import java.util.ArrayList;
 
 
-@Autonomous(name = "Close_Blue", group = "Linear Opmode")
-public class Close_Blue_Camera_Detection extends LinearOpMode
+@Autonomous(name = "Close_Blue_V2", group = "Linear Opmode")
+public class Close_Blue_Camera_Detection_V2 extends LinearOpMode
 {
     //declare DC Motors
     DcMotor TopRight = null;
@@ -103,6 +102,7 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
     double servo_Close = 0.7;
 
     AprilTagDetection tagOfInterest = null;
+    JunctionPipeline junctionPipeline = null;
 
     // drive motor position variables
 
@@ -138,6 +138,7 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+        junctionPipeline = new JunctionPipeline(telemetry);
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -186,8 +187,39 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
 
-                    if(tagOfInterest.id == left)
+                    if(tagOfInterest.id == right)
                     {
+                        moveForward(1,medium);
+                        moveLeft(3,medium);
+                        //turnClockwise(90,medium);
+
+                        moveForward(40,medium);
+                        moveForward(-4,medium);
+                        /*
+                        //move right to get away from the cone infront
+                        moveLeft(20, medium);
+                        //move forward to get closer to the closest medium pole
+                        moveForward(17,medium);
+                        */
+
+                        //move right to get to the position near the pole
+                        moveLeft(10, medium);
+                        //go up to drop the cone into the pole
+                        slideMotorUpTest(35, 0.4);
+                        moveForward(3, medium);
+                        slideMotorUpTest(-5, 0.5);
+                        servoOpen(servoarm, -0.2);
+                        sleep(300);
+
+                        //go to park
+                        moveForward(-4,medium);
+                        servoOpen(servoarm,0.7);
+                        slideMotorUpTest(-28,0.5);
+                        moveLeft(-30,medium);
+                        // moveForward(-24,medium);
+                        // moveLeft(-8,medium);
+                        // turnClockwise(68,medium);
+                        /*
 
                         moveForward(1,medium);
                         slideMotorUpTest(1, 0.2);
@@ -229,7 +261,7 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
                         slideMotorUpTest(-7, 0.3);
                         servoOpen(servoarm, servo_Open);
 
-
+*/
 
 
 
@@ -238,29 +270,86 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
                     else if(tagOfInterest.id == middle )
                     {
                         moveForward(1,medium);
+                        moveLeft(3,medium);
+                        //turnClockwise(90,medium);
+
+                        moveForward(40,medium);
+                        moveForward(-4,medium);
+                        /*
                         //move right to get away from the cone infront
                         moveLeft(20, medium);
                         //move forward to get closer to the closest medium pole
                         moveForward(17,medium);
+                        */
+
                         //move right to get to the position near the pole
-                        moveLeft(-8, medium);
+                        /*
+                        camera.setPipeline(junctionPipeline);
+
+                        switch (junctionPipeline.getLocation()){
+                            case LEFT:
+                                break;
+                            case RIGHT:
+                                break;
+                            case NOT_FOUND:
+                                moveLeft(1, medium);
+                                break;
+
+                        }
+
+                         */
+                        moveLeft(12, medium);
+                        moveLeft(1, medium);
                         //go up to drop the cone into the pole
-                        slideMotorUpTest(35, 0.2);
+                        slideMotorUpTest(35, 0.4);
                         moveForward(3, medium);
+                        slideMotorUpTest(-5, 0.5);
                         servoOpen(servoarm, -0.2);
+                        sleep(300);
 
                         //go to park
-                        moveForward(-2,medium);
+                        moveForward(-4,medium);
                         servoOpen(servoarm,0.7);
-                        slideMotorUpTest(-35,0.2);
-                        moveLeft(10,medium);
-                        moveForward(16,medium);
-                        moveLeft(-17,medium);
+                        slideMotorUpTest(-28,0.5);
+                        moveLeft(-10,medium);
+                       // moveForward(-24,medium);
+                       // moveLeft(-8,medium);
                        // turnClockwise(68,medium);
                     }
-                    else if(tagOfInterest.id == right)
+                    else if(tagOfInterest.id == left)
                     {
+                        moveForward(1,medium);
+                        moveLeft(3,medium);
+                        //turnClockwise(90,medium);
 
+                        moveForward(40,medium);
+                        moveForward(-4,medium);
+                        /*
+                        //move right to get away from the cone infront
+                        moveLeft(20, medium);
+                        //move forward to get closer to the closest medium pole
+                        moveForward(17,medium);
+                        */
+
+                        //move right to get to the position near the pole
+                        moveLeft(10, medium);
+                        //go up to drop the cone into the pole
+                        slideMotorUpTest(35, 0.4);
+                        moveForward(3, medium);
+                        slideMotorUpTest(-5, 0.5);
+                        servoOpen(servoarm, -0.2);
+                        sleep(300);
+
+                        //go to park
+                        moveForward(-4,medium);
+                        servoOpen(servoarm,0.7);
+                        slideMotorUpTest(-28,0.5);
+                        moveLeft(10,medium);
+                        // moveForward(-24,medium);
+                        // moveLeft(-8,medium);
+                        // turnClockwise(68,medium);
+
+                        /*
 
                         moveForward(1,medium);
                         //move right to get away from the cone infront
@@ -283,6 +372,8 @@ public class Close_Blue_Camera_Detection extends LinearOpMode
                         moveForward(-18,medium);
                         moveLeft(-35, medium);
                         moveForward(18,medium);
+                        */
+
                     }
                 }
                 else
